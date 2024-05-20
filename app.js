@@ -46,34 +46,18 @@ const fileFilter = (req, file, cb) => {
 
 const app = express();
 
-app.use(
-  cors({
-    origin: ["https://lab23-01-client-app.web.app", "http://localhost:3000"],
-    // origin: "https://lab23-01-client-app.web.app",
-    // origin: ["*", "http://localhost:3000"],
-    // origin: "http://localhost:3000",
-    credentials: true,
-  })
-);
+app.use(cors());
+// app.use(
+//   cors({
+//     origin: ["https://lab23-01-client-app.web.app", "http://localhost:3000"],
+//     // origin: "https://lab23-01-client-app.web.app",
+//     // origin: ["*", "http://localhost:3000"],
+//     // origin: "http://localhost:3000",
+//     credentials: true,
+//   })
+// );
 
 app.use(bodyParser.json());
-
-// app.use((req, res, next) => {
-//   res.setHeader(
-//     "Access-Control-Allow-Origin",
-//     "https://lab23-01-client-app.web.app"
-//   );
-//   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-//   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-//   next();
-// });
-
-// app.use((req, res, next) => {
-//   res.setHeader("Access-Control-Allow-Origin", "*");
-//   res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,DELETE");
-//   res.setHeader("Access-Control-Allow-Headers", "Content-Type,Authorization");
-//   next();
-// });
 
 app.use(
   multer({ storage: fileStorage, fileFilter: fileFilter }).single("imageFile")
@@ -103,21 +87,16 @@ app.use(
 );
 
 app.use((req, res, next) => {
-  // console.log()
-  // console.log("app.js req.body.email:", req.body.email);
-  // console.log("app.js req.session:", req.sessionStore);
   if (!req.session.user) {
-    // console.log("not req.session.user");
     return next();
   }
   User.findById(req.session.user._id)
     .then((user) => {
       if (!user) {
-        // console.log("not user");
         return next();
       }
       req.user = user;
-      // console.log("req.user:", req.user);
+
       next();
     })
     .catch((err) => {
