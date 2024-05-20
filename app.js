@@ -48,7 +48,8 @@ const app = express();
 
 app.use(
   cors({
-    origin: "https://lab23-01-client-app.web.app",
+    origin: ["https://lab23-01-client-app.web.app", "http://localhost:3000"],
+    // origin: "https://lab23-01-client-app.web.app",
     // origin: ["*", "http://localhost:3000"],
     // origin: "http://localhost:3000",
     credentials: true,
