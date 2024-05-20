@@ -67,6 +67,16 @@ app.use(
 
 app.use(bodyParser.json());
 
+app.use((req, res, next) => {
+  res.setHeader(
+    "Access-Control-Allow-Origin",
+    "https://lab23-01-client-app.web.app"
+  );
+  res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,DELETE");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type,Authorization");
+  next();
+});
+
 app.use(
   multer({ storage: fileStorage, fileFilter: fileFilter }).single("imageFile")
 );
