@@ -46,16 +46,33 @@ const fileFilter = (req, file, cb) => {
 
 const app = express();
 
-app.use(cors());
-// app.use(
-//   cors({
-//     origin: ["*", "http://localhost:3000"],
-//     // origin: "http://localhost:3000",
-//     credentials: true,
-//   })
-// );
+app.use(
+  cors({
+    origin: "*",
+    // origin: ["*", "http://localhost:3000"],
+    // origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
 
 app.use(bodyParser.json());
+
+app.use((req, res, next) => {
+  res.setHeader(
+    "Access-Control-Allow-Origin",
+    "https://lab23-01-client-app.web.app"
+  );
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  next();
+});
+
+// app.use((req, res, next) => {
+//   res.setHeader("Access-Control-Allow-Origin", "*");
+//   res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,DELETE");
+//   res.setHeader("Access-Control-Allow-Headers", "Content-Type,Authorization");
+//   next();
+// });
 
 app.use(
   multer({ storage: fileStorage, fileFilter: fileFilter }).single("imageFile")
