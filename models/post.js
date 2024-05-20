@@ -22,10 +22,10 @@ const postSchema = new Schema(
       required: true,
     },
 
-    creator: {
-      type: Object,
-      required: true,
-    },
+    // creator: {
+    //   type: Object,
+    //   required: true,
+    // },
   }
   // {timestamps:true},
 );

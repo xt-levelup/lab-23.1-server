@@ -79,7 +79,7 @@ exports.createPost = (req, res, next) => {
       content: content,
       imageUrl: imageUrl,
       date: new Date(),
-      creator: session.user,
+      // creator: session.user,
     });
 
     post
