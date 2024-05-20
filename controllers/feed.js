@@ -47,7 +47,7 @@ exports.createPost = (req, res, next) => {
   const imageFile = req.file;
   const imageUrl = imageFile ? imageFile.path : null;
 
-  const sessionId = req.body.sessionId;
+  // const sessionId = req.body.sessionId;
 
   const errors = validationResult(req);
 
@@ -56,7 +56,7 @@ exports.createPost = (req, res, next) => {
   console.log("imageFile:", imageFile);
   console.log("imageUrl:", imageUrl);
 
-  console.log("sessionId:", sessionId);
+  // console.log("sessionId:", sessionId);
 
   if (!errors.isEmpty()) {
     console.log("errors.array()[0]:", errors.array()[0]);
@@ -64,51 +64,38 @@ exports.createPost = (req, res, next) => {
     return;
   }
 
-  if (!sessionId) {
-    res.status(403).json({
-      message: "Not authorized!",
-    });
-  } else if (!imageFile || !imageUrl) {
+  // if (!sessionId) {
+  //   res.status(403).json({
+  //     message: "Not authorized!",
+  //   });
+  // } else
+  if (!imageFile || !imageUrl) {
     res.status(402).json({
       message: "Please choose the file is an image!",
     });
   } else {
-    sessionStore.get(sessionId, (err, session) => {
-      if (err) {
-        res.status(403).json({
-          message: "Not authorized!",
-        });
-      } else if (!session) {
+    const post = new Post({
+      title: title,
+      content: content,
+      imageUrl: imageUrl,
+      date: new Date(),
+      creator: session.user,
+    });
+
+    post
+      .save()
+      .then((result) => {
+        console.log("Post successfully!");
+        res.status(201).json(result);
+      })
+      .catch((err) => {
+        console.log("post.save err:", err);
         res.status(500).json({
           message: "Something went wrong!",
         });
-      } else {
-        console.log("session create post:", session);
+      });
 
-        const post = new Post({
-          title: title,
-          content: content,
-          imageUrl: imageUrl,
-          date: new Date(),
-          creator: session.user,
-        });
-
-        post
-          .save()
-          .then((result) => {
-            console.log("Post successfully!");
-            res.status(201).json(result);
-          })
-          .catch((err) => {
-            console.log("post.save err:", err);
-            res.status(500).json({
-              message: "Something went wrong!",
-            });
-          });
-
-        io.getIo().emit("posts", { action: "create", post: post });
-      }
-    });
+    io.getIo().emit("posts", { action: "create", post: post });
   }
 };
 
@@ -142,7 +129,7 @@ exports.editPost = (req, res, next) => {
   const imageFile = req.file;
   const imageUrl = imageFile ? imageFile.path : null;
 
-  const sessionId = req.body.sessionId;
+  // const sessionId = req.body.sessionId;
 
   const errors = validationResult(req);
 
@@ -152,7 +139,7 @@ exports.editPost = (req, res, next) => {
   console.log("imageFile:", imageFile);
   console.log("imageUrl:", imageUrl);
 
-  console.log("sessionId:", sessionId);
+  // console.log("sessionId:", sessionId);
 
   if (!errors.isEmpty()) {
     res.status(422).json(errors.array()[0]);
