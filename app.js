@@ -46,13 +46,14 @@ const fileFilter = (req, file, cb) => {
 
 const app = express();
 
-app.use(
-  cors({
-    origin: ["*", "http://localhost:3000"],
-    // origin: "http://localhost:3000",
-    credentials: true,
-  })
-);
+app.use(cors());
+// app.use(
+//   cors({
+//     origin: ["*", "http://localhost:3000"],
+//     // origin: "http://localhost:3000",
+//     credentials: true,
+//   })
+// );
 
 app.use(bodyParser.json());
 
