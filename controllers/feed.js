@@ -2,7 +2,7 @@ const User = require("../models/user");
 
 const Post = require("../models/post");
 
-const sessionStore = require("../util/sessionStore");
+// const sessionStore = require("../util/sessionStore");
 const io = require("../socket");
 const imageDelete = require("../util/imageRemove");
 

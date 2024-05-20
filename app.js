@@ -67,15 +67,15 @@ app.use(
 
 app.use(bodyParser.json());
 
-app.use((req, res, next) => {
-  res.setHeader(
-    "Access-Control-Allow-Origin",
-    "https://lab23-01-client-app.web.app"
-  );
-  res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,DELETE");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type,Authorization");
-  next();
-});
+// app.use((req, res, next) => {
+//   res.setHeader(
+//     "Access-Control-Allow-Origin",
+//     "https://lab23-01-client-app.web.app"
+//   );
+//   res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,DELETE");
+//   res.setHeader("Access-Control-Allow-Headers", "Content-Type,Authorization");
+//   next();
+// });
 
 app.use(
   multer({ storage: fileStorage, fileFilter: fileFilter }).single("imageFile")
@@ -130,15 +130,7 @@ mongoose
   .then((result) => {
     const server = app.listen(process.env.PORT || 5000);
     // const server = app.listen(5000);
-    const io = require("./socket").init(server, {
-      cors: {
-        origin: [
-          "https://lab23-01-client-app.web.app",
-          "http://localhost:3000",
-        ],
-        methods: ["GET", "POST", "PUT", "DELETE"],
-      },
-    });
+    const io = require("./socket").init(server);
     // console.log("Server connected!");
     io.on("connection", (socket) => {
       console.log("Client connected!");
