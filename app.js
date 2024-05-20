@@ -46,7 +46,15 @@ const fileFilter = (req, file, cb) => {
 
 const app = express();
 
-app.use(cors());
+// app.use(cors());
+
+app.use(
+  cors({
+    origin: ["https://lab23-01-client-app.web.app", "http://localhost:3000"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+  })
+);
+
 // app.use(
 //   cors({
 //     origin: ["https://lab23-01-client-app.web.app", "http://localhost:3000"],
