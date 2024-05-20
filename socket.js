@@ -7,7 +7,7 @@ module.exports = {
           "https://lab23-01-client-app.web.app",
           "http://localhost:3000",
         ],
-        methods: ["GET", "POST"],
+        methods: ["GET", "POST", "PUT", "DELETE"],
       },
     });
     return io;
