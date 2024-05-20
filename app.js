@@ -120,7 +120,15 @@ mongoose
   .then((result) => {
     const server = app.listen(process.env.PORT || 5000);
     // const server = app.listen(5000);
-    const io = require("./socket").init(server);
+    const io = require("./socket").init(server, {
+      cors: {
+        origin: [
+          "https://lab23-01-client-app.web.app",
+          "http://localhost:3000",
+        ],
+        methods: ["GET", "POST", "PUT", "DELETE"],
+      },
+    });
     // console.log("Server connected!");
     io.on("connection", (socket) => {
       console.log("Client connected!");
